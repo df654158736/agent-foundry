@@ -1,0 +1,16 @@
+[project]
+name = "agent-foundry"
+version = "0.1.0"
+description = "Codex developer kit for building and evaluating business agents"
+requires-python = "==3.12.*"
+dependencies = [
+    "deepagents==0.7.5",
+    "langchain==1.4.3",
+    "langgraph==1.2.12",
+    "langchain-core==1.6.5",
+    "langchain-openai==1.6.6",
+]
+
+[tool.uv]
+package = false
+required-version = "==0.12.2"
