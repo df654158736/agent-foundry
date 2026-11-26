@@ -1,0 +1,4 @@
+interface:
+  display_name: "会话交接与接续"
+  short_description: "去除历史噪音，保留关键知识细节，用简短索引引导新会话按需接续任务"
+  default_prompt: "使用 $session-handoff 为当前任务生成去噪、保留关键细节并按需引用的交接包，并在最终回复中用 text 代码块直接给出可复制到新会话的开场文案。"

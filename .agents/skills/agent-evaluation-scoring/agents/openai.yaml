@@ -1,0 +1,4 @@
+interface:
+  display_name: "智能体七维评测与诊断"
+  short_description: "根据真实运行轨迹进行七维质量评分、首次偏差定位、责任归因和优化建议"
+  default_prompt: "用 $agent-evaluation-scoring 根据当前会话或指定运行证据为智能体做七维评分，列出具体问题、责任方和改进建议。"

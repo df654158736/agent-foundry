@@ -30,6 +30,16 @@ uv run --locked python -m foundry eval --fixture
 | CHECKLIST.md、.runs/ | 接续工作、复查原始失败和候选证据 |
 | foundry-release.json、uv.lock | 初始化时写入的框架版本与摘要、环境依赖 |
 
+## Codex 如何自检和修复
+
+在业务目录打开 Codex，可直接输入：
+
+> 根据 SPEC 和 Checklist 运行已授权的金标。用真链 Skill 找出第一次出现错误的输入、决策或回执，按七维评分区分责任。只修有证据的责任层，保留冻结用例和首次失败，用原题和相邻反例复验，请 spec_delivery_reviewer 独立核对，再更新 Checklist。
+
+随包有 [开发 Skills](.agents/skills/) 和 [项目 reviewer](.codex/agents/)。三个 Foundry 入口负责导航；目标对齐、代码架构、真链排障、七维评分与复杂交接五项方法来自原开发资产，包含对应的参考资料。两份 reviewer 配置保留原评审判据并限制为只读。发行版将工作区专属规则入口和跨 Skill 引用改为项目路径。日常进度仍由 Checklist 管理。
+
+例如在班次示例中，若第二轮提案带了新日期、工具却返回前一天的班次，先沿该调用对准工具输入与回执，再检查数据选择条件。修正后分别核验第二轮实际站点与日期、交付时段和未发布场景。完整对话质量与真实模型稳定性仍需单独验收。模型与数据均获准时使用 live 模式，fixture 仅用于可重复的受控对照。
+
 ## 验收、发行与升级
 
 在发行源码根目录运行：

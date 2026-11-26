@@ -2,6 +2,8 @@
 name: foundry-iterate
 description: 以真实或受控运行定位首次偏差，做七维诊断、独立评审、反例复验和跨会话接续。
 ---
+开始调查时读 [真链取证](../debug-agent-reallink/SKILL.md)，按需打开其证据台账与通用修复检查。逐项判分使用 [七维评分尺度](../agent-evaluation-scoring/SKILL.md)。
+
 从 Checklist 打开原尝试的 case.json、trace.jsonl、delivery.json 和 run.json，核实版本、入口、真实身份、模型、依赖与独立真值是否一致。只修获准层级。fixture 只验证接线及控制样例。
 
 按发生顺序还原原问与条件、决策前实际模型输入、工具提案、程序裁决与回执、下游实发、独立对账、用户交付。回调中的工具入参不是外部服务的实际请求，业务适配器需要另提供脱敏回执或产物引用。首次偏差、根因、责任人、置信度分别写。找不到模型可见输入就保留待判，不凭终态猜因。

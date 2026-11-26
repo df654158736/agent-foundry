@@ -2,6 +2,8 @@
 name: foundry-gold
 description: 从业务承诺设计场景覆盖和独立金标，冻结用例、Oracle、合法多轮和负路径，解释未覆盖风险。
 ---
+核对商定能力、金标适用性与独立依据时，使用 [证据台账](../debug-agent-reallink/references/evidence-ledger.md)；全量运行参考 [真实回归](../debug-agent-reallink/references/full-suite-reallink.md)。
+
 先把业务 Spec 的每项承诺映射到真实任务或授权的合成案例。按影响选择正常、歧义、澄清恢复、无资料、无权限、依赖故障或写入后的回读。给每项标注能力所有者、风险、已有用例与缺口。重复问法不能替代缺失的高风险场景。
 
 每题在 evals/cases.json 给出稳定 id、实际用户 turns 和业务期待，注明权威来源、作用域、数据版本与可变部分。固定后续用户答复只适用于已确定的业务上下文；需要按真实澄清选项响应的任务应扩展驱动器，记录实际选项与所选 ID。用例与答案只由评测侧读取。evals/oracle.py 的 assess(case, answers, events) 返回“检查名称 → bool”，无充分依据时保留待裁定项；无适用自动检查时保持未验。必要时单列独立人工裁定，不改冻结结果。
