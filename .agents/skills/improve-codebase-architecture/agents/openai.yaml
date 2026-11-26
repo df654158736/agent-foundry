@@ -1,0 +1,5 @@
+interface:
+  display_name: "既有代码架构审查"
+  short_description: "依据实际调用、变更成本与反例识别值得重构的模块"
+policy:
+  allow_implicit_invocation: false

@@ -40,6 +40,12 @@ uv run --locked python -m foundry eval --fixture
 
 例如在班次示例中，若第二轮提案带了新日期、工具却返回前一天的班次，先沿该调用对准工具输入与回执，再检查数据选择条件。修正后分别核验第二轮实际站点与日期、交付时段和未发布场景。完整对话质量与真实模型稳定性仍需单独验收。模型与数据均获准时使用 live 模式，fixture 仅用于可重复的受控对照。
 
+## 按场景使用开发 Skill
+
+- 对已有系统做架构体检时，在 Codex 中输入「用 $improve-codebase-architecture 检查这条链路为什么反复返工，给出最值得做的一项修改和复验条件」。该入口适合已有代码的专项审查。[架构审查方法](.agents/skills/improve-codebase-architecture/SKILL.md)
+- 有 Web 交互的业务项目可从发行目录使用 `uv run --locked python -m foundry init ../my-agent --frontend`。该选项为 Codex 安装通用前端审查 Skill。随后可输入「用 $web-design-guidelines 检查这个确认表单的键盘操作、失败提示和刷新恢复」。规则已固定，评审时可离线使用。[前端扩展与来源](extensions/web-design-guidelines/SKILL.md)
+- 已有业务项目可在并行升级时加 `--frontend` 开启扩展；此前已启用的项目会自动保留。普通 CLI 项目继续使用默认初始化。
+
 ## 验收、发行与升级
 
 在发行源码根目录运行：

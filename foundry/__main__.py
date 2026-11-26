@@ -19,6 +19,8 @@ def main():
     update = sub.add_parser("upgrade")
     update.add_argument("source", type=Path)
     update.add_argument("destination", type=Path)
+    for command in (initialize_cmd, update):
+        command.add_argument("--frontend", action="store_true", help="启用通用 Web 界面审查 Skill")
     sub.add_parser("doctor")
     chat = sub.add_parser("chat")
     chat.add_argument("prompt", nargs="?")
@@ -32,10 +34,10 @@ def main():
     args = parser.parse_args()
     root = args.project.resolve()
     if args.command == "init":
-        print(initialize(args.destination, bool(args.example)))
+        print(initialize(args.destination, bool(args.example), frontend=args.frontend))
         return 0
     if args.command == "upgrade":
-        print(upgrade(args.source, args.destination))
+        print(upgrade(args.source, args.destination, frontend=args.frontend))
         return 0
     if args.command == "compare":
         from .evaluation import compare

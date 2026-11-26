@@ -21,7 +21,7 @@ def copy_item(source, target):
         shutil.copyfile(source, target)
 
 
-def initialize(target, example=False):
+def initialize(target, example=False, *, frontend=False):
     template = ROOT / "templates" / "project"
     if not template.is_dir():
         raise ValueError("请从发行包根目录运行 init")
@@ -29,6 +29,8 @@ def initialize(target, example=False):
     try:
         for name in CORE:
             copy_item(ROOT / name, target / name)
+        if frontend:
+            copy_item(ROOT / "extensions/web-design-guidelines", target / ".agents/skills/web-design-guidelines")
         for item in template.iterdir():
             copy_item(item, target / item.name)
         if example:
@@ -76,7 +78,7 @@ def managed_files(root):
     return result
 
 
-def upgrade(source, destination):
+def upgrade(source, destination, *, frontend=False):
     """Side-by-side upgrade of the supported single-project layout."""
     source = source.resolve()
     destination = destination.resolve()
@@ -94,7 +96,8 @@ def upgrade(source, destination):
         path = source / name
         if not path.exists() or any(p.is_symlink() for p in [path, *path.rglob("*")]):
             raise ValueError(f"缺少业务资产或含外部符号链接：{name}")
-    initialize(destination)
+    has_frontend = ".agents/skills/web-design-guidelines/SKILL.md" in manifest["files"]
+    initialize(destination, frontend=frontend or has_frontend)
     try:
         for name in owned:
             path = destination / name

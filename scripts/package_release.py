@@ -15,7 +15,7 @@ def build(destination):
     name = f"agent-foundry-{__version__}"
     archive = destination / (name + ".zip")
     with ZipFile(archive.with_suffix(".tmp"), "w") as output:
-        for item in sorted((*CORE, "templates", "examples", "scripts", "tests", "README.md")):
+        for item in sorted((*CORE, "extensions", "templates", "examples", "scripts", "tests", "README.md")):
             path = ROOT / item
             for file in sorted(path.rglob("*") if path.is_dir() else [path]):
                 if not file.is_file() or file.is_symlink() or any(

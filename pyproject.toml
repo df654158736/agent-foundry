@@ -1,6 +1,6 @@
 [project]
 name = "agent-foundry"
-version = "0.1.1"
+version = "0.1.2"
 description = "Codex developer kit for building and evaluating business agents"
 requires-python = "==3.12.*"
 dependencies = [
