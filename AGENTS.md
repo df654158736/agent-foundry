@@ -8,3 +8,7 @@
 
 3. 有明确目标和证据就推进。涉及新授权、业务定义冲突或不可逆操作时带依据请负责人决定。使用项目内的独立 reviewer 前核对角色可用性，见 docs/review.md。开发和发布授权分别确认。
 4. 用当前版本、实际入口及独立依据验收。更新 Checklist 的证据位置和下一动作，使新会话可以直接续接。临时调查仅留在对应运行中。
+
+接手已有迭代时从 CHECKLIST.md 选一个未关闭的问题，打开它的 run、case 和原始证据。使用 `python -m foundry review RUN` 查逐题裁定，按 docs/review.md 登记复验并回写同一项。阶段自评后对照项目总目标选择下一动作。
+
+首次从空业务包启动时，先读 [foundry-build](.agents/skills/foundry-build/SKILL.md) 和[首个能力接入示例](.agents/skills/foundry-build/references/first-capability.md)。按用户真实问题选择一个可独立核验的工作切片，在业务目录写工具、Skill 和系统提示，在评测目录冻结依据。先经 doctor 核对加载，再从 chat 或 eval 走通一题，将首轮运行记入 Checklist。

@@ -15,3 +15,17 @@
 项目内 `.codex/agents/reviewer.toml` 随个人原配置选择 gpt-6.2-astra / xhigh；`spec-delivery-reviewer.toml` 使用宿主可用的默认模型。两者显式要求 read-only。会话审查员中原本指向个人工作区的规则改为当前项目规则。实际调用有独立回执才记录“已独立复核”；宿主未提供相应角色或模型时，在本轮交付中写明缺口。
 
 五份个人 Skill 保留原配套参考和脚本。真链与评分 Skill 中的准则引用指向本项目随包版本。开发方法随框架版本更新，在业务仓中可以通过 foundry-release.json 核对具体文件摘要。
+
+## 运行裁定与接手
+
+从业务包运行 `python -m foundry review RUN` 查看每题自动分、业务结论、正文结论和尝试目录。历史包产生的完整 run.json 也可以读取。原问在 case.json，逐轮输出在 delivery.json，实际调用在 trace.jsonl。出现工具或模型异常时，结合 run.json 和已有轨迹说明哪些环节未执行。
+
+只读 reviewer 返回判据和证据。主会话将一题的意见整理为临时 JSON，运行 `python -m foundry review RUN --record FILE`。以下是字段示例，run、case、reviewer、reason 和证据路径须来自本次实际复核。
+
+```json
+{"run":"<run.json 中的 run>","case":"<用例 ID>","revision":1,"reviewer":"<实际复核来源>","business":"pass","delivery":"fail","reason":"第 2 轮查到正确时段，但正文还声称完成了预约。轨迹仅有查询回执。","evidence":["case.json","trace.jsonl","delivery.json"]}
+```
+
+业务与正文分别支持 pass、fail、blocked、unverified。证据不足时记录缺少哪段链路。命令登记已有意见；独立性由实际的审阅过程及审阅回执证明。每次更正用下一 revision 并写明原因，旧版本留在尝试目录 reviews/。登记时保存所引文件的 SHA-256；文件失效或内容改变后，原裁定显示为待复核。重新运行得到新的 run ID，须依据新产物裁定。
+
+`compare BASE CANDIDATE` 展示两轴裁定及冻结自动分，退出码沿用原自动分语义。需要把已复核的交付作为本次门槛时使用 `compare BASE CANDIDATE --require-review`。候选缺少任一题的裁定、自动检查失败、业务或正文尚未通过时返回非零。fixture 的裁定适用于受控样例。独立审阅入口及使用授权仍按上文执行。

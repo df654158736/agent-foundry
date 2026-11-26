@@ -1,4 +1,4 @@
-# 使用与升级 · 0.1.2
+# 使用与升级 · 0.1.4
 
 ## 固定技术基线
 
@@ -29,10 +29,14 @@ init 创建全新独立目录，复制该发行版的运行时、锁和开发资
 
 每个 attempt 附带 AgentGauge 0.4.0.dev10 Trace 结构的 agentgauge-trace.json，包含原始事件、逻辑轮次、工具调用、用户答复及运行耗时；业务检查仍在 run.json。组织内完整 runner、recorder、封存与在线发布属于可选集成，公共源码包不分发内部 wheel。这是一份 Trace 交换产物，不等价于 AgentGauge 平台已封存的完整 Run。
 
-使用受控模型可在无密钥环境检查安装、Skill 加载、工具分派、状态与证据链。开发者在 evals/simulation.py 中实现 make_model() 供 --fixture 使用，真实模型路径不会导入该文件。模型上线质量须实际运行并复核完整交付。人工或 reviewer 裁定单列于 Checklist，保留原自动得分和来源。
+使用受控模型可在无密钥环境检查安装、Skill 加载、工具分派、状态与证据链。开发者在 evals/simulation.py 中实现 make_model() 供 --fixture 使用，真实模型路径不会导入该文件。模型上线质量须实际运行并复核完整交付。逐题复核意见记录在对应尝试的 reviews/ 中，Checklist 跟踪发现、责任和下一动作。
 
 ## 升级与回退
 
 在旧版保存当前冻结运行。由新版 upgrade 验证旧发行清单与接入契约，拷贝 business/、evals/、SPEC.md、CHECKLIST.md 和业务 README 到新候选。框架定制、未知额外文件及业务符号链接需要先审阅，以免丢失原工作。旧运行、Git 历史、环境文件和虚拟环境保留在原目录。复验时从各自目录启动，保持数据版本、模型、权限和用例可比，同时核对性能与相邻回归。切回旧目录即可回退。变更公共接入契约的下一主版本应先提供迁移说明，并用实际旧项目做升级测试。
 
 开发用 Skill 和 reviewer 工作在 Codex 项目作用域；实施时核对实际发现与加载情况。业务运行所用 system.md 和 Skill 与开发资产独立。运行需获得相应业务授权。发行验收另需真实模型与独立开发者在干净宿主上完成一个未见场景，记录耗时和需要原作者解释的事项。
+
+通过 review RUN 查看或追加逐题业务与正文裁定，compare 的 --require-review 可将候选复核纳入退出码。用法和证据范围见 [独立评审](review.md#运行裁定与接手)。
+
+doctor 的 skills 来自锁定运行时的 Skill 发现逻辑。已有 SKILL.md 被跳过时，skipped_skills 列出相对路径，命令返回 2。服务端实际调用情况从 eval 轨迹核验。

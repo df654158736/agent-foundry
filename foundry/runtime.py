@@ -12,6 +12,20 @@ from langgraph.checkpoint.memory import InMemorySaver
 from .project import extension
 
 
+def inspect_business_skills(root):
+    # Use the discovery implementation of our pinned Deep Agents release.
+    from deepagents.middleware.skills import _list_skills_with_errors
+
+    directory = root / "business/skills"
+    loaded, error = _list_skills_with_errors(FilesystemBackend(root_dir=directory, virtual_mode=True), "/")
+    if error:
+        raise ValueError(error)
+    paths = {s["path"].lstrip("/") for s in loaded}
+    skipped = sorted(str(p.relative_to(directory)) for p in directory.glob("*/SKILL.md")
+                     if p.relative_to(directory).as_posix() not in paths)
+    return sorted(s["name"] for s in loaded), skipped
+
+
 def live_model():
     if not os.getenv("FOUNDRY_MODEL") or not os.getenv("OPENAI_API_KEY"):
         raise ValueError("请设置 FOUNDRY_MODEL 和 OPENAI_API_KEY，或运行 eval --fixture")

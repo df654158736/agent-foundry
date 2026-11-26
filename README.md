@@ -59,3 +59,5 @@ uv run --locked python scripts/package_release.py
 第二条命令在临时目录构造一个可复现的业务工具缺陷和正确候选，保留两次独立运行。预期原题 fail → pass，相邻场景 pass → pass。它演示故障注入、归因取证和复验，开放式语义质量由真实模型单独验收。第三条命令在 dist/ 生成源码发行 ZIP 与 SHA-256。
 
 升级时从新发行目录执行 `uv run --locked python -m foundry upgrade ../my-agent ../my-agent-candidate`，用两边相同的冻结用例重新验证。当前面向可信开发者单机使用，无页面。详见 [使用与升级](docs/operations.md)、[框架宪法](docs/constitution.md)、[独立复核](docs/review.md)。
+
+v0.1.3 支持对每次运行分别登记业务结果与用户正文的复核意见。用 `python -m foundry review RUN` 从新会话打开待判用例，使用 `compare BASE CANDIDATE --require-review` 验证候选自动检查与逐题复核均通过。登记格式与接手流程见 [独立评审](docs/review.md)。

@@ -16,6 +16,7 @@ from .gauge import gauge_trace
 from .privacy import scrub
 from .project import digest_files, extension
 from .runtime import Session, live_model
+from .review import accepted, latest, summary
 
 
 def save(path, value):
@@ -146,7 +147,7 @@ def run(root, fixture, case_id=None, output=None):
     return folder, all(a["status"] == "pass" for a in report["attempts"])
 
 
-def compare(baseline, candidate):
+def compare(baseline, candidate, *, require_review=False):
     left, right = [json.loads((path / "run.json").read_text()) for path in (baseline, candidate)]
     if left["run"] == right["run"]:
         raise ValueError("需要两个独立运行")
@@ -158,6 +159,9 @@ def compare(baseline, candidate):
         if not batch["planned"] or [a["case"] for a in batch["attempts"]] != batch["planned"]:
             raise ValueError("运行分母不完整")
     print(f"{left['mode']} · {left['run']} → {right['run']}")
-    for a, b in zip(left["attempts"], right["attempts"], strict=True):
-        print(f"{a['case']}: {a['status']} → {b['status']}")
-    return all(a["status"] == "pass" for a in right["attempts"])
+    reviewed = True
+    for index, (a, b) in enumerate(zip(left["attempts"], right["attempts"], strict=True), 1):
+        old, new = latest(baseline, index), latest(candidate, index)
+        reviewed &= accepted(new)
+        print(f"{a['case']}: {a['status']} → {b['status']} · {summary(old)} → {summary(new)}")
+    return all(a["status"] == "pass" for a in right["attempts"]) and (reviewed or not require_review)
